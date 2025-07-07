@@ -451,7 +451,7 @@
         <p>제출 중입니다...</p>
       </div>
 
-      <form id="worshipDiaryForm">
+      <form id="worshipDiaryForm" autocomplete="off">
         <!-- 부서 선택 -->
         <div class="form-group">
           <label>부서 선택 <span class="required">*</span></label>
@@ -506,14 +506,6 @@
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxUpPv25c9n9xq0nGnklKMG4DbTFaDi3ohtIrbgt58jOAjDXkOMWAjC81uzcB9fcH5Z/exec';
 
     let isSubmitting = false;
-
-    // 폼 제출 이벤트
-    document.getElementById('worshipDiaryForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      if (!isSubmitting && validateForm()) {
-        submitForm();
-      }
-    });
 
     // 글자 수 카운터 설정
     function setupCharacterCounter(textareaId, counterId) {
@@ -604,25 +596,42 @@
       }, 5000);
     }
 
-    // 폼 제출
+    // 폼 제출 이벤트
+    document.getElementById('worshipDiaryForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (!isSubmitting && validateForm()) {
+        submitForm();
+      }
+    });
+
+    // 폼 제출 (JSON 전송)
     function submitForm() {
       isSubmitting = true;
-      
-      const formData = new FormData();
-      formData.append('department', document.querySelector('input[name="department"]:checked').value);
-      formData.append('heartToGod', document.getElementById('heartToGod').value.trim());
-      formData.append('prayerRequest', document.getElementById('prayerRequest').value.trim());
-      formData.append('questions', document.getElementById('questions').value.trim());
-      formData.append('timestamp', new Date().toISOString());
+
+      const department = document.querySelector('input[name="department"]:checked').value;
+      const heartToGod = document.getElementById('heartToGod').value.trim();
+      const prayerRequest = document.getElementById('prayerRequest').value.trim();
+      const questions = document.getElementById('questions').value.trim();
+      const timestamp = new Date().toISOString();
 
       // UI 상태 변경
       document.getElementById('loading').style.display = 'block';
       document.getElementById('worshipDiaryForm').style.display = 'none';
       document.getElementById('submitBtn').disabled = true;
 
+      // JSON 데이터로 전송
       fetch(SCRIPT_URL, {
         method: 'POST',
-        body: formData
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          department,
+          heartToGod,
+          prayerRequest,
+          questions,
+          timestamp
+        })
       })
       .then(response => response.json())
       .then(data => {
@@ -661,12 +670,12 @@
     function resetForm() {
       document.getElementById('worshipDiaryForm').reset();
       hideAllErrors();
-      
+
       // 글자 수 카운터 초기화
       document.getElementById('heartToGodCount').textContent = '0/1000';
       document.getElementById('prayerRequestCount').textContent = '0/1000';
       document.getElementById('questionsCount').textContent = '0/1000';
-      
+
       // 카운터 스타일 초기화
       document.querySelectorAll('.char-count').forEach(el => {
         el.classList.remove('warning', 'error');
