@@ -99,6 +99,19 @@
       animation: slideIn 0.5s ease-out;
     }
 
+    .error-alert {
+      display: none;
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 16px;
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 500;
+      box-shadow: 0 10px 25px rgba(239, 68, 68, 0.3);
+      animation: slideIn 0.5s ease-out;
+    }
+
     @keyframes slideIn {
       from {
         opacity: 0;
@@ -253,6 +266,21 @@
       font-style: italic;
     }
 
+    .char-count {
+      text-align: right;
+      font-size: 0.85rem;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+
+    .char-count.warning {
+      color: #f59e0b;
+    }
+
+    .char-count.error {
+      color: #ef4444;
+    }
+
     .error-message {
       display: none;
       color: #ef4444;
@@ -284,6 +312,12 @@
       overflow: hidden;
     }
 
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
     .submit-btn::before {
       content: '';
       position: absolute;
@@ -301,16 +335,16 @@
       z-index: 1;
     }
 
-    .submit-btn:hover {
+    .submit-btn:hover:not(:disabled) {
       transform: translateY(-3px);
       box-shadow: 0 15px 35px rgba(79, 70, 229, 0.4);
     }
 
-    .submit-btn:hover::before {
+    .submit-btn:hover:not(:disabled)::before {
       left: 0;
     }
 
-    .submit-btn:active {
+    .submit-btn:active:not(:disabled) {
       transform: translateY(-1px);
     }
 
@@ -389,6 +423,10 @@
       textarea::placeholder {
         color: #6b7280;
       }
+
+      .char-count {
+        color: #9ca3af;
+      }
     }
   </style>
 </head>
@@ -404,9 +442,13 @@
         예배 일기가 성공적으로 제출되었습니다! 🙏
       </div>
 
+      <div class="error-alert" id="errorAlert">
+        <div id="errorMessage"></div>
+      </div>
+
       <div class="loading" id="loading">
         <div class="loading-spinner"></div>
-        <p>제출 중...</p>
+        <p>제출 중입니다...</p>
       </div>
 
       <form id="worshipDiaryForm">
@@ -430,7 +472,8 @@
         <div class="form-group">
           <label for="heartToGod">예배일기 #1 <span class="required">*</span></label>
           <p>오늘 예배를 드리면서 하나님을 향해 어떤 마음을 갖게 되었나요?</p>
-          <textarea id="heartToGod" name="heartToGod" placeholder="하나님께 드린 마음을 적어주세요..."></textarea>
+          <textarea id="heartToGod" name="heartToGod" placeholder="하나님께 드린 마음을 적어주세요..." maxlength="1000"></textarea>
+          <div class="char-count" id="heartToGodCount">0/1000</div>
           <div class="error-message" id="heartToGodError">이 항목은 필수입니다.</div>
         </div>
 
@@ -438,7 +481,8 @@
         <div class="form-group">
           <label for="prayerRequest">예배일기 #2 <span class="required">*</span></label>
           <p>오늘 기도 제목을 나누어요</p>
-          <textarea id="prayerRequest" name="prayerRequest" placeholder="기도 제목을 적어주세요..."></textarea>
+          <textarea id="prayerRequest" name="prayerRequest" placeholder="기도 제목을 적어주세요..." maxlength="1000"></textarea>
+          <div class="char-count" id="prayerRequestCount">0/1000</div>
           <div class="error-message" id="prayerRequestError">이 항목은 필수입니다.</div>
         </div>
 
@@ -446,10 +490,11 @@
         <div class="form-group">
           <label for="questions">예배일기 #3 <span class="optional-label">(선택)</span></label>
           <p>오늘 말씀에서 궁금한 점이 있다면 적어주세요.</p>
-          <textarea id="questions" name="questions" placeholder="궁금한 점이 있다면 적어주세요..."></textarea>
+          <textarea id="questions" name="questions" placeholder="궁금한 점이 있다면 적어주세요..." maxlength="1000"></textarea>
+          <div class="char-count" id="questionsCount">0/1000</div>
         </div>
 
-        <button type="submit" class="submit-btn">
+        <button type="submit" class="submit-btn" id="submitBtn">
           <span>예배 일기 제출하기</span>
         </button>
       </form>
@@ -457,15 +502,52 @@
   </div>
 
   <script>
+    // Google Apps Script 웹앱 URL을 여기에 입력하세요
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxUpPv25c9n9xq0nGnklKMG4DbTFaDi3ohtIrbgt58jOAjDXkOMWAjC81uzcB9fcH5Z/exec';
 
+    let isSubmitting = false;
+
+    // 폼 제출 이벤트
     document.getElementById('worshipDiaryForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      if (validateForm()) submitForm();
+      if (!isSubmitting && validateForm()) {
+        submitForm();
+      }
     });
 
+    // 글자 수 카운터 설정
+    function setupCharacterCounter(textareaId, counterId) {
+      const textarea = document.getElementById(textareaId);
+      const counter = document.getElementById(counterId);
+      const maxLength = parseInt(textarea.getAttribute('maxlength'));
+
+      textarea.addEventListener('input', function() {
+        const currentLength = this.value.length;
+        counter.textContent = `${currentLength}/${maxLength}`;
+        
+        if (currentLength > maxLength * 0.9) {
+          counter.classList.add('warning');
+        } else {
+          counter.classList.remove('warning');
+        }
+        
+        if (currentLength >= maxLength) {
+          counter.classList.add('error');
+        } else {
+          counter.classList.remove('error');
+        }
+      });
+    }
+
+    // 글자 수 카운터 초기화
+    setupCharacterCounter('heartToGod', 'heartToGodCount');
+    setupCharacterCounter('prayerRequest', 'prayerRequestCount');
+    setupCharacterCounter('questions', 'questionsCount');
+
+    // 폼 유효성 검사
     function validateForm() {
       let isValid = true;
+      hideAllErrors();
 
       const department = document.querySelector('input[name="department"]:checked');
       const heartToGod = document.getElementById('heartToGod').value.trim();
@@ -474,17 +556,27 @@
       if (!department) {
         showError('departmentError');
         isValid = false;
-      } else hideError('departmentError');
+      }
 
       if (!heartToGod) {
         showError('heartToGodError');
+        document.getElementById('heartToGodError').textContent = '이 항목은 필수입니다.';
         isValid = false;
-      } else hideError('heartToGodError');
+      } else if (heartToGod.length < 10) {
+        showError('heartToGodError');
+        document.getElementById('heartToGodError').textContent = '최소 10자 이상 입력해주세요.';
+        isValid = false;
+      }
 
       if (!prayerRequest) {
         showError('prayerRequestError');
+        document.getElementById('prayerRequestError').textContent = '이 항목은 필수입니다.';
         isValid = false;
-      } else hideError('prayerRequestError');
+      } else if (prayerRequest.length < 10) {
+        showError('prayerRequestError');
+        document.getElementById('prayerRequestError').textContent = '최소 10자 이상 입력해주세요.';
+        isValid = false;
+      }
 
       return isValid;
     }
@@ -497,7 +589,25 @@
       document.getElementById(id).style.display = 'none';
     }
 
+    function hideAllErrors() {
+      document.querySelectorAll('.error-message').forEach(el => {
+        el.style.display = 'none';
+      });
+      document.getElementById('errorAlert').style.display = 'none';
+    }
+
+    function showErrorAlert(message) {
+      document.getElementById('errorMessage').textContent = message;
+      document.getElementById('errorAlert').style.display = 'block';
+      setTimeout(() => {
+        document.getElementById('errorAlert').style.display = 'none';
+      }, 5000);
+    }
+
+    // 폼 제출
     function submitForm() {
+      isSubmitting = true;
+      
       const formData = new FormData();
       formData.append('department', document.querySelector('input[name="department"]:checked').value);
       formData.append('heartToGod', document.getElementById('heartToGod').value.trim());
@@ -505,22 +615,33 @@
       formData.append('questions', document.getElementById('questions').value.trim());
       formData.append('timestamp', new Date().toISOString());
 
+      // UI 상태 변경
       document.getElementById('loading').style.display = 'block';
       document.getElementById('worshipDiaryForm').style.display = 'none';
+      document.getElementById('submitBtn').disabled = true;
 
-      fetch(SCRIPT_URL, { method: 'POST', body: formData })
-        .then(res => res.json())
-        .then(data => {
-          if (data.success) {
-            showSuccess();
-            resetForm();
-          } else throw new Error(data.error || '제출 오류 발생');
-        })
-        .catch(err => {
-          alert('제출 중 오류가 발생했습니다.');
-          document.getElementById('loading').style.display = 'none';
-          document.getElementById('worshipDiaryForm').style.display = 'block';
-        });
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          showSuccess();
+          resetForm();
+        } else {
+          throw new Error(data.error || '제출 중 오류가 발생했습니다.');
+        }
+      })
+      .catch(error => {
+        console.error('제출 오류:', error);
+        showErrorAlert('제출 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+        restoreForm();
+      })
+      .finally(() => {
+        isSubmitting = false;
+        document.getElementById('submitBtn').disabled = false;
+      });
     }
 
     function showSuccess() {
@@ -529,13 +650,33 @@
       setTimeout(() => {
         document.getElementById('successMessage').style.display = 'none';
         document.getElementById('worshipDiaryForm').style.display = 'block';
-      }, 3000);
+      }, 4000);
+    }
+
+    function restoreForm() {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('worshipDiaryForm').style.display = 'block';
     }
 
     function resetForm() {
       document.getElementById('worshipDiaryForm').reset();
-      document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
+      hideAllErrors();
+      
+      // 글자 수 카운터 초기화
+      document.getElementById('heartToGodCount').textContent = '0/1000';
+      document.getElementById('prayerRequestCount').textContent = '0/1000';
+      document.getElementById('questionsCount').textContent = '0/1000';
+      
+      // 카운터 스타일 초기화
+      document.querySelectorAll('.char-count').forEach(el => {
+        el.classList.remove('warning', 'error');
+      });
     }
+
+    // 페이지 로드 시 초기화
+    document.addEventListener('DOMContentLoaded', function() {
+      hideAllErrors();
+    });
   </script>
 </body>
 </html>
