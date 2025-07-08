@@ -633,9 +633,8 @@
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          messageBox.textContent = '제출이 완료되었습니다. 감사합니다!';
-          messageBox.classList.remove('error');
-          document.getElementById('worshipForm').reset();
+           showSuccess('제출해 주셔서 감사합니다');  // 성공 UI 표시
+           resetForm();    // 폼 리셋
         } else {
           throw new Error(data.error || '제출 중 오류가 발생했습니다.');
         }
