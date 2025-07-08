@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>인천성산교회 중고등부 예배 일기</title>
+  <title>✨ 인천성산교회 중고등부 예배 일기 ✨</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
+    /* 기본 스타일 및 리셋 */
     * {
       margin: 0;
       padding: 0;
@@ -12,28 +14,114 @@
     }
 
     body {
-      font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Noto Sans KR', sans-serif; /* 더 현대적인 폰트 적용 */
+      background: linear-gradient(135deg, #a8c0ff 0%, #3f2b96 100%); /* 밝고 경쾌한 그라데이션 */
       min-height: 100vh;
       padding: 20px;
       line-height: 1.6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .container {
-      max-width: 600px;
+      max-width: 650px; /* 컨테이너 너비 약간 확장 */
       margin: 0 auto;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      border-radius: 24px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      background: rgba(255, 255, 255, 0.98); /* 거의 불투명하게 */
+      backdrop-filter: blur(15px); /* 블러 강도 증가 */
+      border-radius: 30px; /* 더 부드러운 모서리 */
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15); /* 그림자 진하게 */
       overflow: hidden;
-      animation: fadeInUp 0.8s ease-out;
+      animation: fadeInScale 0.9s ease-out forwards; /* 등장 애니메이션 변경 */
+      border: 1px solid rgba(255, 255, 255, 0.3); /* 살짝 투명한 테두리 */
     }
 
-    @keyframes fadeInUp {
+    @keyframes fadeInScale {
       from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(30px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* 헤더 스타일 */
+    .header {
+      background: linear-gradient(135deg, #845ef7 0%, #4c46e5 100%); /* 보라색 계열 그라데이션 */
+      color: white;
+      padding: 45px 35px; /* 패딩 증가 */
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2); /* 하단 테두리 */
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -60%;
+      left: -60%;
+      width: 220%;
+      height: 220%;
+      background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%); /* 빛 효과 강화 */
+      animation: float 8s ease-in-out infinite; /* 애니메이션 속도 조절 */
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-25px) rotate(5deg); }
+    }
+
+    .header h1 {
+      font-size: 2.5rem; /* 폰트 크기 증가 */
+      font-weight: 700;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* 텍스트 그림자 */
+    }
+
+    .header p {
+      font-size: 1.2rem; /* 폰트 크기 증가 */
+      opacity: 0.95;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* 폼 컨테이너 */
+    .form-container {
+      padding: 40px 35px; /* 패딩 조정 */
+      position: relative;
+    }
+
+    /* 메시지 박스 (성공/에러) */
+    .success-message, .error-alert {
+      display: none;
+      padding: 25px; /* 패딩 증가 */
+      border-radius: 20px; /* 더 둥근 모서리 */
+      text-align: center;
+      margin-bottom: 35px; /* 마진 증가 */
+      font-weight: 600; /* 폰트 굵기 조정 */
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1); /* 그림자 강화 */
+      animation: slideIn 0.6s ease-out forwards; /* 애니메이션 강화 */
+    }
+
+    .success-message {
+      background: linear-gradient(135deg, #34d399 0%, #06b6d4 100%); /* 시원한 초록-파랑 그라데이션 */
+      color: white;
+    }
+
+    .error-alert {
+      background: linear-gradient(135deg, #ef4444 0%, #f97316 100%); /* 강렬한 빨강-주황 그라데이션 */
+      color: white;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
       }
       to {
         opacity: 1;
@@ -41,103 +129,22 @@
       }
     }
 
-    .header {
-      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-      color: white;
-      padding: 40px 30px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .header::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-      animation: float 6s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-20px); }
-    }
-
-    .header h1 {
-      font-size: 2.2rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .header p {
-      font-size: 1.1rem;
-      opacity: 0.9;
-      position: relative;
-      z-index: 1;
-    }
-
-    .form-container {
-      padding: 40px 30px;
-      position: relative;
-    }
-
-    .success-message {
-      display: none;
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      color: white;
-      padding: 20px;
-      border-radius: 16px;
-      text-align: center;
-      margin-bottom: 30px;
-      font-weight: 500;
-      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
-      animation: slideIn 0.5s ease-out;
-    }
-
-    .error-alert {
-      display: none;
-      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-      color: white;
-      padding: 20px;
-      border-radius: 16px;
-      text-align: center;
-      margin-bottom: 30px;
-      font-weight: 500;
-      box-shadow: 0 10px 25px rgba(239, 68, 68, 0.3);
-      animation: slideIn 0.5s ease-out;
-    }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateX(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
+    /* 로딩 스피너 */
     .loading {
       display: none;
       text-align: center;
-      padding: 60px 20px;
+      padding: 80px 20px; /* 패딩 증가 */
       color: #6b7280;
     }
 
     .loading-spinner {
-      width: 50px;
-      height: 50px;
-      border: 4px solid #e5e7eb;
-      border-top: 4px solid #4f46e5;
+      width: 60px; /* 크기 증가 */
+      height: 60px; /* 크기 증가 */
+      border: 5px solid #e5e7eb;
+      border-top: 5px solid #6366f1; /* 보라색 스피너 */
       border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 20px;
+      animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite; /* 스핀 애니메이션 변경 */
+      margin: 0 auto 25px;
     }
 
     @keyframes spin {
@@ -145,22 +152,23 @@
       100% { transform: rotate(360deg); }
     }
 
+    /* 폼 그룹 */
     .form-group {
-      margin-bottom: 32px;
+      margin-bottom: 35px; /* 마진 증가 */
     }
 
     .form-group label {
       display: block;
-      font-weight: 600;
-      color: #374151;
-      margin-bottom: 8px;
-      font-size: 1.1rem;
+      font-weight: 700; /* 폰트 굵기 증가 */
+      color: #2d3748; /* 진한 회색 */
+      margin-bottom: 10px;
+      font-size: 1.15rem; /* 폰트 크기 증가 */
     }
 
     .form-group p {
       color: #6b7280;
-      font-size: 0.95rem;
-      margin-bottom: 12px;
+      font-size: 0.98rem;
+      margin-bottom: 15px;
       line-height: 1.5;
     }
 
@@ -175,102 +183,109 @@
       font-size: 0.9rem;
     }
 
-    .department-options {
+    /* 라디오 버튼 그룹 */
+    .radio-options {
       display: flex;
-      gap: 16px;
-      margin-bottom: 8px;
+      gap: 18px; /* 간격 증가 */
+      flex-wrap: wrap; /* 작은 화면에서 줄바꿈 */
     }
 
-    .department-option {
+    .radio-option {
       flex: 1;
+      min-width: 120px; /* 최소 너비 설정 */
       position: relative;
     }
 
-    .department-option input[type="radio"] {
+    .radio-option input[type="radio"] {
       position: absolute;
       opacity: 0;
       cursor: pointer;
     }
 
-    .department-option label {
+    .radio-option label {
       display: block;
-      padding: 16px 20px;
-      background: #f9fafb;
-      border: 2px solid #e5e7eb;
-      border-radius: 16px;
+      padding: 18px 22px; /* 패딩 증가 */
+      background: #f0f4f8; /* 밝은 회색 배경 */
+      border: 2px solid #e0e6ed; /* 밝은 테두리 */
+      border-radius: 18px; /* 더 둥근 모서리 */
       cursor: pointer;
       text-align: center;
-      transition: all 0.3s ease;
-      font-weight: 500;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* 부드러운 전환 */
+      font-weight: 600; /* 폰트 굵기 증가 */
       position: relative;
       overflow: hidden;
+      color: #4a5568; /* 기본 글자색 */
     }
 
-    .department-option label::before {
+    .radio-option label::before {
       content: '';
       position: absolute;
       top: 0;
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-      transition: left 0.3s ease;
+      background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); /* 보라색 계열 그라데이션 */
+      transition: left 0.3s ease-out;
       z-index: 0;
     }
 
-    .department-option label span {
+    .radio-option label span {
       position: relative;
       z-index: 1;
-      transition: color 0.3s ease;
+      transition: color 0.3s ease-out;
     }
 
-    .department-option input[type="radio"]:checked + label {
-      border-color: #4f46e5;
+    .radio-option input[type="radio"]:checked + label {
+      border-color: #6366f1; /* 선택 시 보라색 테두리 */
       color: white;
+      transform: translateY(-3px); /* 약간 위로 이동 */
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3); /* 선택 시 그림자 */
     }
 
-    .department-option input[type="radio"]:checked + label::before {
+    .radio-option input[type="radio"]:checked + label::before {
       left: 0;
     }
 
-    .department-option label:hover {
-      border-color: #a78bfa;
+    .radio-option label:hover:not(:checked) {
+      border-color: #a855f7;
       transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(79, 70, 229, 0.15);
+      box-shadow: 0 5px 15px rgba(168, 85, 247, 0.1);
     }
 
+    /* 텍스트 영역 */
     textarea {
       width: 100%;
-      min-height: 120px;
-      padding: 16px 20px;
-      border: 2px solid #e5e7eb;
-      border-radius: 16px;
+      min-height: 150px; /* 최소 높이 증가 */
+      padding: 18px 22px; /* 패딩 증가 */
+      border: 2px solid #e0e6ed;
+      border-radius: 18px; /* 더 둥근 모서리 */
       font-family: inherit;
       font-size: 1rem;
       resize: vertical;
       transition: all 0.3s ease;
-      background: #fafafa;
+      background: #f8fafc; /* 밝은 배경 */
       line-height: 1.6;
+      color: #333;
     }
 
     textarea:focus {
       outline: none;
-      border-color: #4f46e5;
+      border-color: #6366f1; /* 포커스 시 보라색 테두리 */
       background: white;
-      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15); /* 포커스 시 그림자 */
       transform: translateY(-2px);
     }
 
     textarea::placeholder {
-      color: #9ca3af;
+      color: #9da6b4; /* 플레이스홀더 색상 변경 */
       font-style: italic;
     }
 
     .char-count {
       text-align: right;
-      font-size: 0.85rem;
+      font-size: 0.88rem; /* 폰트 크기 조정 */
       color: #6b7280;
-      margin-top: 4px;
+      margin-top: 6px; /* 마진 증가 */
     }
 
     .char-count.warning {
@@ -279,43 +294,41 @@
 
     .char-count.error {
       color: #ef4444;
+      font-weight: 500;
     }
 
     .error-message {
       display: none;
       color: #ef4444;
-      font-size: 0.9rem;
-      margin-top: 8px;
-      font-weight: 500;
+      font-size: 0.95rem; /* 폰트 크기 조정 */
+      margin-top: 10px; /* 마진 증가 */
+      font-weight: 600;
       animation: shake 0.5s ease-in-out;
     }
 
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      75% { transform: translateX(5px); }
-    }
-
+    /* 제출 버튼 */
     .submit-btn {
       width: 100%;
-      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); /* 보라색 계열 그라데이션 */
       color: white;
       border: none;
-      padding: 18px 24px;
-      border-radius: 16px;
-      font-size: 1.1rem;
-      font-weight: 600;
+      padding: 20px 28px; /* 패딩 증가 */
+      border-radius: 18px; /* 더 둥근 모서리 */
+      font-size: 1.2rem; /* 폰트 크기 증가 */
+      font-weight: 700; /* 폰트 굵기 증가 */
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
+      box-shadow: 0 15px 30px rgba(99, 102, 241, 0.35); /* 그림자 강화 */
       position: relative;
       overflow: hidden;
+      margin-top: 15px; /* 상단 마진 */
     }
 
     .submit-btn:disabled {
-      opacity: 0.6;
+      opacity: 0.5; /* 비활성화 시 투명도 감소 */
       cursor: not-allowed;
       transform: none;
+      box-shadow: none;
     }
 
     .submit-btn::before {
@@ -325,7 +338,7 @@
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, #5b21b6 0%, #4338ca 100%);
+      background: linear-gradient(135deg, #5b21b6 0%, #4338ca 100%); /* 호버 시 진한 그라데이션 */
       transition: left 0.3s ease;
       z-index: 0;
     }
@@ -336,8 +349,8 @@
     }
 
     .submit-btn:hover:not(:disabled) {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 35px rgba(79, 70, 229, 0.4);
+      transform: translateY(-4px); /* 호버 시 더 많이 위로 이동 */
+      box-shadow: 0 20px 40px rgba(99, 102, 241, 0.5); /* 호버 시 그림자 더 진하게 */
     }
 
     .submit-btn:hover:not(:disabled)::before {
@@ -345,59 +358,70 @@
     }
 
     .submit-btn:active:not(:disabled) {
-      transform: translateY(-1px);
+      transform: translateY(-2px); /* 클릭 시 약간 아래로 이동 */
     }
 
     /* 모바일 반응형 */
     @media (max-width: 768px) {
       body {
-        padding: 10px;
+        padding: 15px;
       }
 
       .container {
-        border-radius: 20px;
+        border-radius: 25px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
       }
 
       .header {
-        padding: 30px 20px;
+        padding: 35px 25px;
       }
 
       .header h1 {
-        font-size: 1.8rem;
+        font-size: 2rem;
+      }
+
+      .header p {
+        font-size: 1rem;
       }
 
       .form-container {
-        padding: 30px 20px;
+        padding: 35px 25px;
       }
 
-      .department-options {
+      .radio-options {
         flex-direction: column;
-        gap: 12px;
+        gap: 15px;
       }
 
-      .department-option label {
-        padding: 14px 16px;
+      .radio-option {
+        min-width: unset; /* 모바일에서 최소 너비 제한 해제 */
+      }
+
+      .radio-option label {
+        padding: 16px 20px;
       }
 
       textarea {
-        min-height: 100px;
-        padding: 14px 16px;
+        min-height: 120px;
+        padding: 16px 20px;
       }
 
       .submit-btn {
-        padding: 16px 20px;
+        padding: 18px 22px;
+        font-size: 1.1rem;
       }
     }
 
     /* 다크모드 지원 */
     @media (prefers-color-scheme: dark) {
       body {
-        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+        background: linear-gradient(135deg, #1f2937 0%, #111827 100%); /* 더 어두운 다크모드 배경 */
       }
 
       .container {
         background: rgba(30, 30, 30, 0.95);
-        color: #e5e7eb;
+        color: #e0e0e0;
+        border: 1px solid rgba(255, 255, 255, 0.1);
       }
 
       .form-group label {
@@ -405,27 +429,35 @@
       }
 
       .form-group p {
-        color: #9ca3af;
+        color: #a0a7b4;
       }
 
-      .department-option label {
-        background: #374151;
-        border-color: #4b5563;
-        color: #e5e7eb;
+      .radio-option label {
+        background: #2d3748; /* 다크모드 라디오 배경 */
+        border-color: #4a5568;
+        color: #e0e0e0;
+      }
+
+      .radio-option input[type="radio"]:checked + label {
+        border-color: #8b5cf6; /* 다크모드 선택 시 색상 */
       }
 
       textarea {
-        background: #374151;
-        border-color: #4b5563;
-        color: #e5e7eb;
+        background: #2d3748;
+        border-color: #4a5568;
+        color: #e0e0e0;
       }
 
       textarea::placeholder {
-        color: #6b7280;
+        color: #7d8590;
       }
 
       .char-count {
-        color: #9ca3af;
+        color: #a0a7b4;
+      }
+
+      .loading-spinner {
+        border-top: 5px solid #8b5cf6; /* 다크모드 스피너 색상 */
       }
     }
   </style>
@@ -433,13 +465,13 @@
 <body>
   <div class="container">
     <div class="header">
-      <h1>인천성산교회 중고등부</h1>
-      <p>예배 일기</p>
+      <h1>✨ 인천성산교회 중고등부 ✨</h1>
+      <p>오늘의 은혜, 함께 나누어요!</p>
     </div>
 
     <div class="form-container">
       <div class="success-message" id="successMessage">
-        예배 일기가 성공적으로 제출되었습니다! 🙏
+        🎉 예배 일기가 성공적으로 제출되었어요! 감사합니다! 🙏
       </div>
 
       <div class="error-alert" id="errorAlert">
@@ -448,18 +480,18 @@
 
       <div class="loading" id="loading">
         <div class="loading-spinner"></div>
-        <p>제출 중입니다...</p>
+        <p>잠시만 기다려주세요... ✨</p>
       </div>
 
       <form id="worshipDiaryForm" autocomplete="off">
         <div class="form-group">
-          <label>부서 선택 <span class="required">*</span></label>
-          <div class="department-options">
-            <div class="department-option">
+          <label>소속 부서 <span class="required">*</span></label>
+          <div class="radio-options department-options">
+            <div class="radio-option">
               <input type="radio" id="middle" name="department" value="중등부" />
               <label for="middle"><span>중등부</span></label>
             </div>
-            <div class="department-option">
+            <div class="radio-option">
               <input type="radio" id="high" name="department" value="고등부" />
               <label for="high"><span>고등부</span></label>
             </div>
@@ -468,30 +500,45 @@
         </div>
 
         <div class="form-group">
+          <label>신분 <span class="required">*</span></label>
+          <div class="radio-options role-options">
+            <div class="radio-option">
+              <input type="radio" id="student" name="role" value="학생" />
+              <label for="student"><span>학생</span></label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="teacher" name="role" value="교사" />
+              <label for="teacher"><span>교사</span></label>
+            </div>
+          </div>
+          <div class="error-message" id="roleError">신분을 선택해주세요.</div>
+        </div>
+
+        <div class="form-group">
           <label for="heartToGod">예배일기 #1 <span class="required">*</span></label>
-          <p>오늘 예배를 드리면서 하나님을 향해 어떤 마음을 갖게 되었나요?</p>
-          <textarea id="heartToGod" name="heartToGod" placeholder="하나님께 드린 마음을 적어주세요..." maxlength="1000"></textarea>
+          <p>오늘 예배를 드리면서 하나님을 향해 어떤 마음을 갖게 되었나요? 주님께 드리고 싶은 진심을 담아 자유롭게 표현해주세요.</p>
+          <textarea id="heartToGod" name="heartToGod" placeholder="예배를 통해 깨달은 은혜와 마음을 적어주세요..." maxlength="1000"></textarea>
           <div class="char-count" id="heartToGodCount">0/1000</div>
-          <div class="error-message" id="heartToGodError">이 항목은 필수입니다.</div>
+          <div class="error-message" id="heartToGodError"></div>
         </div>
 
         <div class="form-group">
           <label for="prayerRequest">예배일기 #2 <span class="required">*</span></label>
-          <p>오늘 기도 제목을 나누어요</p>
-          <textarea id="prayerRequest" name="prayerRequest" placeholder="기도 제목을 적어주세요..." maxlength="1000"></textarea>
+          <p>오늘 주님께 드리고 싶은 **기도 제목**을 나누어요. 어떤 것이든 좋아요! 솔직한 마음으로 기도해주세요.</p>
+          <textarea id="prayerRequest" name="prayerRequest" placeholder="나의 기도 제목을 적어주세요..." maxlength="1000"></textarea>
           <div class="char-count" id="prayerRequestCount">0/1000</div>
-          <div class="error-message" id="prayerRequestError">이 항목은 필수입니다.</div>
+          <div class="error-message" id="prayerRequestError"></div>
         </div>
 
         <div class="form-group">
           <label for="questions">예배일기 #3 <span class="optional-label">(선택)</span></label>
-          <p>오늘 말씀에서 궁금한 점이 있다면 적어주세요.</p>
-          <textarea id="questions" name="questions" placeholder="궁금한 점이 있다면 적어주세요..." maxlength="1000"></textarea>
+          <p>오늘 말씀에서 궁금한 점이나 더 알고 싶은 내용이 있다면 적어주세요. 목사님께서는 여러분의 질문을 소중히 생각합니다!</p>
+          <textarea id="questions" name="questions" placeholder="궁금한 점이나 나누고 싶은 고민이 있다면 적어주세요..." maxlength="1000"></textarea>
           <div class="char-count" id="questionsCount">0/1000</div>
         </div>
 
         <button type="submit" class="submit-btn" id="submitBtn">
-          <span>예배 일기 제출하기</span>
+          <span>예배 일기 제출하기 🙌</span>
         </button>
       </form>
     </div>
@@ -500,7 +547,7 @@
   <script>
     // **여기에 본인의 Google Apps Script 웹앱 URL을 입력하세요.**
     // 배포 후 생성되는 URL을 복사하여 붙여넣으세요.
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyf6p2EfdgTvUDYDxOHv4dggifSVCwTxf_QBOLH8_I1fNgnUskEnyFx2_xlo1BrnKaZ/exec'; 
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyQdiKwJTccv1MWohfBp0hPV2Zoxu9FA5UVbkcqLurVLMd07B8JDcoHRtgBPPWGHx8p/exec'; 
 
     let isSubmitting = false;
 
@@ -538,14 +585,20 @@
     // 폼 유효성 검사
     function validateForm() {
       let isValid = true;
-      hideAllErrors();
+      hideAllErrors(); // 모든 에러 메시지를 숨긴 후 다시 검사
 
       const department = document.querySelector('input[name="department"]:checked');
+      const role = document.querySelector('input[name="role"]:checked'); // 신분 선택 검사 추가
       const heartToGod = document.getElementById('heartToGod').value.trim();
       const prayerRequest = document.getElementById('prayerRequest').value.trim();
 
       if (!department) {
         showError('departmentError', '부서를 선택해주세요.');
+        isValid = false;
+      }
+
+      if (!role) { // 신분 선택 유효성 검사
+        showError('roleError', '신분을 선택해주세요.');
         isValid = false;
       }
 
@@ -608,9 +661,11 @@
       isSubmitting = true; // 제출 중 상태로 변경
 
       const department = document.querySelector('input[name="department"]:checked').value;
+      const role = document.querySelector('input[name="role"]:checked').value; // 신분 값 가져오기
       const heartToGod = document.getElementById('heartToGod').value.trim();
       const prayerRequest = document.getElementById('prayerRequest').value.trim();
       const questions = document.getElementById('questions').value.trim();
+      
       // JavaScript에서 현재 시간을 ISO 형식으로 가져옴
       const timestamp = new Date().toISOString(); 
 
@@ -627,6 +682,7 @@
         },
         body: JSON.stringify({
           department,
+          role, // 신분 필드 추가
           heartToGod,
           prayerRequest,
           questions,
@@ -691,16 +747,16 @@
       });
 
       // 라디오 버튼 선택 해제 시 스타일 초기화 (선택 사항)
-      document.querySelectorAll('input[name="department"]').forEach(radio => {
+      document.querySelectorAll('.radio-option input[type="radio"]').forEach(radio => {
           const label = document.querySelector(`label[for="${radio.id}"]`);
           if (label) {
-              label.style.borderColor = ''; // 기본 border 색상으로 되돌림
-              label.style.color = ''; // 기본 글자 색상으로 되돌림
-              const beforePseudo = label.querySelector('span'); // span이 아닌 label 자체의 before 요소를 컨트롤
-              // before 가상 요소의 left를 -100%로 되돌려 배경색을 숨김
-              if (label.style.setProperty) { // setProperty 지원 확인
-                  label.style.setProperty('--pseudo-left', '-100%');
-              }
+              // 라벨의 border, color, box-shadow 초기화
+              label.style.borderColor = ''; 
+              label.style.color = ''; 
+              label.style.boxShadow = '';
+              label.style.transform = '';
+              // 가상 요소의 left를 -100%로 되돌려 배경색을 숨김
+              label.style.setProperty('--pseudo-left', '-100%'); // 가상요소 스타일 직접 제어 (CSS 변수 사용)
           }
       });
     }
@@ -718,6 +774,11 @@
     document.querySelectorAll('input[name="department"]').forEach(radio => {
       radio.addEventListener('change', () => {
         hideError('departmentError');
+      });
+    });
+    document.querySelectorAll('input[name="role"]').forEach(radio => { // 신분 라디오 버튼 추가
+      radio.addEventListener('change', () => {
+        hideError('roleError');
       });
     });
 
