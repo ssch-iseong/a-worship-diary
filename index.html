@@ -622,10 +622,7 @@
       // JSON 데이터로 전송
       fetch(SCRIPT_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
+          body: JSON.stringify({
           department,
           heartToGod,
           prayerRequest,
@@ -636,8 +633,9 @@
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          showSuccess();
-          resetForm();
+          messageBox.textContent = '제출이 완료되었습니다. 감사합니다!';
+          messageBox.classList.remove('error');
+          document.getElementById('worshipForm').reset();
         } else {
           throw new Error(data.error || '제출 중 오류가 발생했습니다.');
         }
