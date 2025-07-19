@@ -611,16 +611,16 @@
       if (!heartToGod) {
         showError('heartToGodError', '이 항목은 필수입니다.');
         isValid = false;
-      } else if (heartToGod.length < 10) {
-        showError('heartToGodError', '최소 10자 이상 입력해주세요.');
+      } else if (heartToGod.length < 5) {
+        showError('heartToGodError', '최소 5자 이상 입력해주세요.');
         isValid = false;
       }
 
       if (!prayerRequest) {
         showError('prayerRequestError', '이 항목은 필수입니다.');
         isValid = false;
-      } else if (prayerRequest.length < 10) {
-        showError('prayerRequestError', '최소 10자 이상 입력해주세요.');
+      } else if (prayerRequest.length < 5) {
+        showError('prayerRequestError', '최소 5자 이상 입력해주세요.');
         isValid = false;
       }
 
