@@ -58,12 +58,28 @@
       border-bottom: 2px solid rgba(255, 255, 255, 0.2);
     }
 
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -60%;
+      left: -60%;
+      width: 220%;
+      height: 220%;
+      background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+      animation: float 8s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-25px) rotate(5deg); }
+    }
+
     .header h1 {
       font-size: 2.5rem;
       font-weight: 700;
       margin-bottom: 10px;
       position: relative;
-      z-index: 1;
+ z-index: 1;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     }
 
@@ -103,8 +119,14 @@
     }
 
     @keyframes slideIn {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* 로딩 스피너 */
@@ -150,8 +172,16 @@
       line-height: 1.5;
     }
 
-    .required { color: #ef4444; font-weight: 700; }
-    .optional-label { color: #10b981; font-weight: 500; font-size: 0.9rem; }
+    .required {
+      color: #ef4444;
+      font-weight: 700;
+    }
+
+    .optional-label {
+      color: #10b981;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
 
     /* 라디오 버튼 그룹 */
     .radio-options {
@@ -212,7 +242,9 @@
       box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
     }
 
-    .radio-option input[type="radio"]:checked + label::before { --pseudo-left: 0; }
+    .radio-option input[type="radio"]:checked + label::before {
+      --pseudo-left: 0;
+    }
 
     .radio-option label:hover:not(:checked) {
       border-color: #a855f7;
@@ -244,11 +276,25 @@
       transform: translateY(-2px);
     }
 
+    textarea::placeholder {
+      color: #9da6b4;
+      font-style: italic;
+    }
+
     .char-count {
       text-align: right;
       font-size: 0.88rem;
       color: #6b7280;
       margin-top: 6px;
+    }
+
+    .char-count.warning {
+      color: #f59e0b;
+    }
+
+    .char-count.error {
+      color: #ef4444;
+      font-weight: 500;
     }
 
     .error-message {
@@ -257,6 +303,13 @@
       font-size: 0.95rem;
       margin-top: 10px;
       font-weight: 600;
+      animation: shake 0.5s ease-in-out;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+      20%, 40%, 60%, 80% { transform: translateX(5px); }
     }
 
     /* 제출 버튼 */
@@ -277,7 +330,12 @@
       margin-top: 15px;
     }
 
-    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .submit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
 
     .submit-btn::before {
       content: '';
@@ -291,22 +349,122 @@
       z-index: 0;
     }
 
-    .submit-btn span { position: relative; z-index: 1; }
+    .submit-btn span {
+      position: relative;
+      z-index: 1;
+    }
 
     .submit-btn:hover:not(:disabled) {
       transform: translateY(-4px);
       box-shadow: 0 20px 40px rgba(99, 102, 241, 0.5);
     }
 
-    .submit-btn:hover:not(:disabled)::before { left: 0; }
+    .submit-btn:hover:not(:disabled)::before {
+      left: 0;
+    }
 
+    .submit-btn:active:not(:disabled) {
+      transform: translateY(-2px);
+    }
+
+    /* 모바일 반응형 */
     @media (max-width: 768px) {
-      body { padding: 15px; }
-      .container { border-radius: 25px; }
-      .header h1 { font-size: 2rem; }
-      .form-container { padding: 35px 25px; }
-      .radio-options { flex-direction: column; gap: 15px; }
-      textarea { min-height: 120px; padding: 16px 20px; }
+      body {
+        padding: 15px;
+      }
+
+      .container {
+        border-radius: 25px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .header {
+        padding: 35px 25px;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+      }
+
+      .header p {
+        font-size: 1rem;
+      }
+
+      .form-container {
+        padding: 35px 25px;
+      }
+
+      .radio-options {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .radio-option {
+        min-width: unset;
+      }
+
+      .radio-option label {
+        padding: 16px 20px;
+      }
+
+      textarea {
+        min-height: 120px;
+        padding: 16px 20px;
+      }
+
+      .submit-btn {
+        padding: 18px 22px;
+        font-size: 1.1rem;
+      }
+    }
+
+    /* 다크모드 지원 */
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+      }
+
+      .container {
+        background: rgba(30, 30, 30, 0.95);
+        color: #e0e0e0;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .form-group label {
+        color: #f3f4f6;
+      }
+
+      .form-group p {
+        color: #a0a7b4;
+      }
+
+      .radio-option label {
+        background: #2d3748;
+        border-color: #4a5568;
+        color: #e0e0e0;
+      }
+
+      .radio-option input[type="radio"]:checked + label {
+        border-color: #8b5cf6;
+      }
+
+      textarea {
+        background: #2d3748;
+        border-color: #4a5568;
+        color: #e0e0e0;
+      }
+
+      textarea::placeholder {
+        color: #7d8590;
+      }
+
+      .char-count {
+        color: #a0a7b4;
+      }
+
+      .loading-spinner {
+        border-top: 5px solid #8b5cf6;
+      }
     }
   </style>
 </head>
@@ -378,19 +536,36 @@
   </div>
 
   <script>
+    // 1. 전달받은 최신 구글 웹 앱 URL 주소 매칭 완료
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxnID9EZTeYCCfxURMIwhaQ5Qxav8oNd0_jFdGuKqFWD2rITAUHspWd9EGd_pQ52EQa4Q/exec';
+
     let isSubmitting = false;
 
+    // 글자 수 카운터 설정
     function setupCharacterCounter(textareaId, counterId) {
       const textarea = document.getElementById(textareaId);
       const counter = document.getElementById(counterId);
       const maxLength = parseInt(textarea.getAttribute('maxlength'));
 
       textarea.addEventListener('input', function() {
-        counter.textContent = `${this.value.length}/${maxLength}`;
+        const currentLength = this.value.length;
+        counter.textContent = `${currentLength}/${maxLength}`;
+
+        if (currentLength > maxLength * 0.9 && currentLength < maxLength) {
+          counter.classList.add('warning');
+          counter.classList.remove('error');
+        } else if (currentLength >= maxLength) {
+          counter.classList.add('error');
+          counter.classList.remove('warning');
+        } else {
+          counter.classList.remove('warning', 'error');
+        }
       });
+
+      textarea.dispatchEvent(new Event('input'));
     }
 
+    // 폼 유효성 검사
     function validateForm() {
       let isValid = true;
       hideAllErrors();
@@ -399,9 +574,26 @@
       const heartToGod = document.getElementById('heartToGod').value.trim();
       const prayerRequest = document.getElementById('prayerRequest').value.trim();
 
-      if (!role) { showError('roleError', '신분을 선택해주세요.'); isValid = false; }
-      if (!heartToGod) { showError('heartToGodError', '이 항목은 필수입니다.'); isValid = false; }
-      if (!prayerRequest) { showError('prayerRequestError', '이 항목은 필수입니다.'); isValid = false; }
+      if (!role) {
+        showError('roleError', '신분을 선택해주세요.');
+        isValid = false;
+      }
+
+      if (!heartToGod) {
+        showError('heartToGodError', '이 항목은 필수입니다.');
+        isValid = false;
+      } else if (heartToGod.length < 5) {
+        showError('heartToGodError', '최소 5자 이상 입력해주세요.');
+        isValid = false;
+      }
+
+      if (!prayerRequest) {
+        showError('prayerRequestError', '이 항목은 필수입니다.');
+        isValid = false;
+      } else if (prayerRequest.length < 5) {
+        showError('prayerRequestError', '최소 5자 이상 입력해주세요.');
+        isValid = false;
+      }
 
       return isValid;
     }
@@ -412,24 +604,38 @@
       errorElement.style.display = 'block';
     }
 
-    function hideError(id) { document.getElementById(id).style.display = 'none'; }
+    function hideError(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+
     function hideAllErrors() {
-      document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.error-message').forEach(el => {
+        el.style.display = 'none';
+      });
       document.getElementById('errorAlert').style.display = 'none';
     }
 
     function showErrorAlert(message) {
       document.getElementById('errorMessage').textContent = message;
       document.getElementById('errorAlert').style.display = 'block';
+      setTimeout(() => {
+        document.getElementById('errorAlert').style.display = 'none';
+      }, 5000);
     }
 
+    // 폼 제출 이벤트
     document.getElementById('worshipDiaryForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      if (!isSubmitting && validateForm()) submitForm();
+
+      if (!isSubmitting && validateForm()) {
+        submitForm();
+      }
     });
 
+    // 폼 제출 함수
     async function submitForm() {
       if (isSubmitting) return;
+      
       isSubmitting = true;
       
       const role = document.querySelector('input[name="role"]:checked').value;
@@ -437,7 +643,12 @@
       const prayerRequest = document.getElementById('prayerRequest').value.trim();
       const questions = document.getElementById('questions').value.trim();
 
-      const formData = { role, heartToGod, prayerRequest, questions };
+      const formData = {
+        role,
+        heartToGod,
+        prayerRequest,
+        questions
+      };
 
       document.getElementById('loading').style.display = 'block';
       document.getElementById('worshipDiaryForm').style.display = 'none';
@@ -446,20 +657,124 @@
       try {
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+          },
           body: JSON.stringify(formData),
           mode: 'cors'
         });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const result = await response.json();
-        if (result.success) { showSuccess(); resetForm(); }
-      } catch (error) {
-        showErrorAlert('제출 중 문제가 발생했습니다. 다시 시도해 주세요.');
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('worshipDiaryForm').style.display = 'block';
+        
+        if (result.success) {
+          showSuccess();
+          resetForm();
+        } else {
+          throw new Error(result.error || '알 수 없는 오류가 발생했습니다.');
+        }
+      } catch (fetchError) {
+        console.log('fetch 실패, XMLHttpRequest로 재시도:', fetchError);
+        
+        try {
+          const result = await submitWithXHR(formData);
+          
+          if (result.success) {
+            showSuccess();
+            resetForm();
+          } else {
+            throw new Error(result.error || '알 수 없는 오류가 발생했습니다.');
+          }
+        } catch (xhrError) {
+          console.error('XMLHttpRequest도 실패:', xhrError);
+          
+          try {
+            await submitWithFormData(formData);
+            showSuccess();
+            resetForm();
+          } catch (formError) {
+            console.error('모든 전송 방법 실패:', formError);
+            showErrorAlert(`예배 일기 제출 중 오류가 발생했습니다: ${formError.message}. 잠시 후 다시 시도해주세요.`);
+            restoreForm();
+          }
+        }
       } finally {
         isSubmitting = false;
         document.getElementById('submitBtn').disabled = false;
       }
+    }
+
+    // XMLHttpRequest를 사용한 전송
+    function submitWithXHR(formData) {
+      return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        
+        xhr.open('POST', SCRIPT_URL, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              try {
+                const result = JSON.parse(xhr.responseText);
+                resolve(result);
+              } catch (e) {
+                reject(new Error('응답 파싱 오류: ' + e.message));
+              }
+            } else {
+              reject(new Error('HTTP 오류: ' + xhr.status));
+            }
+          }
+        };
+        
+        xhr.onerror = function() {
+          reject(new Error('네트워크 오류'));
+        };
+        
+        xhr.send(JSON.stringify(formData));
+      });
+    }
+
+    // Form 데이터로 전송
+    function submitWithFormData(formData) {
+      return new Promise((resolve, reject) => {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = SCRIPT_URL;
+        form.style.display = 'none';
+        
+        Object.keys(formData).forEach(key => {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = key;
+          input.value = formData[key];
+          form.appendChild(input);
+        });
+        
+        document.body.appendChild(form);
+        
+        const iframe = document.createElement('iframe');
+        iframe.name = 'submitFrame';
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+        
+        form.target = 'submitFrame';
+        
+        iframe.onload = function() {
+          try {
+            document.body.removeChild(form);
+            document.body.removeChild(iframe);
+            resolve({ success: true });
+          } catch (e) {
+            reject(new Error('폼 제출 처리 중 오류'));
+          }
+        };
+        
+        form.submit();
+      });
     }
 
     function showSuccess() {
@@ -471,23 +786,48 @@
       }, 4000);
     }
 
+    function restoreForm() {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('worshipDiaryForm').style.display = 'block';
+    }
+
     function resetForm() {
       document.getElementById('worshipDiaryForm').reset();
       hideAllErrors();
+
       document.getElementById('heartToGodCount').textContent = '0/1000';
       document.getElementById('prayerRequestCount').textContent = '0/1000';
       document.getElementById('questionsCount').textContent = '0/1000';
+
+      document.querySelectorAll('.char-count').forEach(el => {
+        el.classList.remove('warning', 'error');
+      });
+
+      document.querySelectorAll('.radio-option input[type="radio"]').forEach(radio => {
+          const label = document.querySelector(`label[for="${radio.id}"]`);
+          if (label) {
+            label.style.borderColor = '';
+            label.style.color = '';
+            label.style.boxShadow = '';
+            label.style.transform = '';
+            label.style.setProperty('--pseudo-left', '-100%');
+          }
+      });
     }
 
     document.addEventListener('DOMContentLoaded', function() {
+      hideAllErrors();
       setupCharacterCounter('heartToGod', 'heartToGodCount');
       setupCharacterCounter('prayerRequest', 'prayerRequestCount');
       setupCharacterCounter('questions', 'questionsCount');
     });
 
     document.querySelectorAll('input[name="role"]').forEach(radio => {
-      radio.addEventListener('change', () => hideError('roleError'));
+      radio.addEventListener('change', () => {
+        hideError('roleError');
+      });
     });
+
     document.getElementById('heartToGod').addEventListener('input', () => hideError('heartToGodError'));
     document.getElementById('prayerRequest').addEventListener('input', () => hideError('prayerRequestError'));
   </script>
